@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 
 [Serializable]
-public class DialogueNode
+public class DialogueRuntimeNode
 {
     [Serializable]
     public enum NodeType

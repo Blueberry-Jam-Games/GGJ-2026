@@ -5,5 +5,5 @@ using UnityEngine;
 public class Dialogue : ScriptableObject
 {
     public string startGUID;
-    public List<DialogueNode> nodeTree;
+    public List<DialogueRuntimeNode> nodeTree;
 }
