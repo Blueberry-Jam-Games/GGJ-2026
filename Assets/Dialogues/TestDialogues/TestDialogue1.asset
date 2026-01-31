@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue
   startGUID: 
   nodeTree:
-  - name: 
-    GUID: 
-    nodeType: 0
-    dialogue: 
+  - name: test
+    GUID: 123
+    nodeType: 1
+    dialogue: Test Print 1. Lets write a bunch of words. Because I love words. Lets
+      see how many sentences we get and whether new lines start. Whoo, I have nothign
+      to write about so i am just going to ramble as the best test. This absolutly
+      makes no sense.
     nodePaths: []
