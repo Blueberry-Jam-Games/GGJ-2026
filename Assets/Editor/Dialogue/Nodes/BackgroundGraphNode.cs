@@ -1,16 +1,9 @@
 using UnityEngine;
+using Unity.GraphToolkit.Editor;
+using System;
 
-public class BackgroundGraphNode : MonoBehaviour
+[Serializable]
+public class BackgroundGraphNode : Node
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

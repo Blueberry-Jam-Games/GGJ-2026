@@ -1,16 +1,13 @@
 using UnityEngine;
+using Unity.GraphToolkit.Editor;
+using System;
 
-public class ModifierGraphNode : MonoBehaviour
+[Serializable]
+public class ModifierGraphNode : Node
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void OnDefinePorts(IPortDefinitionContext context)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        context.AddInputPort<int>("Entry").Build();
+        context.AddOutputPort<int>("Exit").Build();
     }
 }

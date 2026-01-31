@@ -17,6 +17,11 @@ public class DialogueRuntimeNode
         END
     }
 
+    public DialogueRuntimeNode()
+    {
+        nodePaths = new List<NodePath>();
+    }
+
     public string name; // Node type
     public string GUID; // Unique identifier for node connections
     public NodeType nodeType; // Enum for the type of node represented.
@@ -33,4 +38,10 @@ public struct NodePath
 {
     public string response;
     public string connectedGUID;
+
+    public NodePath(string response, string GUID)
+    {
+        this.response = response;
+        this.connectedGUID = GUID;
+    }
 }

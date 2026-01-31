@@ -7,6 +7,6 @@ public class StartGraphNode : Node
 {
     protected override void OnDefinePorts(IPortDefinitionContext context)
     {
-        context.AddOutputPort<float>("Entry").Build();
+        context.AddOutputPort<int>("Entry").Build();
     }
 }

@@ -29,8 +29,7 @@ MonoBehaviour:
           serializedVersion: 2
           Hash: fbef9ebe2ad96282e1e3cec4a3b2e4be
         m_Name: 
-        m_GraphNodeModels:
-        - rid: -2
+        m_GraphNodeModels: []
         m_GraphWireModels: []
         m_GraphStickyNoteModels: []
         m_GraphPlacematModels: []
@@ -45,15 +44,7 @@ MonoBehaviour:
           y: 149
           width: 252
           height: 87
-        m_GraphElementMetaData:
-        - m_Guid:
-            m_Value0: 11808335394617515580
-            m_Value1: 4564218429196698773
-          m_HashGuid:
-            serializedVersion: 2
-            Hash: 3c5ed9687aa2dfa395848fa57a5c573f
-          m_Category: 0
-          m_Index: 0
+        m_GraphElementMetaData: []
         m_EntryPoint:
           rid: -2
         m_Graph:
