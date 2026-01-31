@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(DialogueNode))]
+[CustomPropertyDrawer(typeof(DialogueRuntimeNode))]
 public class DialogueNodeDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -40,18 +40,18 @@ public class DialogueNodeDrawer : PropertyDrawer
             EditorGUI.PropertyField(rect, typeProp);
             rect.y += line + spacing;
 
-            DialogueNode.NodeType nodeType =
-                (DialogueNode.NodeType)typeProp.enumValueIndex;
+            DialogueRuntimeNode.NodeType nodeType =
+                (DialogueRuntimeNode.NodeType)typeProp.enumValueIndex;
 
             // Conditional fields
             switch (nodeType)
             {
-                case DialogueNode.NodeType.START:
+                case DialogueRuntimeNode.NodeType.START:
                     EditorGUI.PropertyField(rect, pathsProp, true);
                     rect.y += EditorGUI.GetPropertyHeight(pathsProp, true) + spacing;
                     break;
 
-                case DialogueNode.NodeType.DIALOGUE:
+                case DialogueRuntimeNode.NodeType.DIALOGUE:
                     EditorGUI.PropertyField(rect, dialogueProp, true);
                     rect.y += EditorGUI.GetPropertyHeight(dialogueProp, true) + spacing;
 
@@ -59,12 +59,12 @@ public class DialogueNodeDrawer : PropertyDrawer
                     rect.y += EditorGUI.GetPropertyHeight(pathsProp, true) + spacing;
                     break;
 
-                case DialogueNode.NodeType.MODIFIER:
+                case DialogueRuntimeNode.NodeType.MODIFIER:
                     //EditorGUI.PropertyField(rect, tbdProp);
                     rect.y += line + spacing;
                     break;
 
-                case DialogueNode.NodeType.END:
+                case DialogueRuntimeNode.NodeType.END:
                     // No extra fields
                     break;
             }
@@ -93,19 +93,19 @@ public class DialogueNodeDrawer : PropertyDrawer
         height += (line + spacing) * 3;
 
         SerializedProperty typeProp = property.FindPropertyRelative("nodeType");
-        DialogueNode.NodeType nodeType =
-            (DialogueNode.NodeType)typeProp.enumValueIndex;
+        DialogueRuntimeNode.NodeType nodeType =
+            (DialogueRuntimeNode.NodeType)typeProp.enumValueIndex;
 
         switch (nodeType)
         {
-            case DialogueNode.NodeType.START:
+            case DialogueRuntimeNode.NodeType.START:
             {
                 SerializedProperty paths = property.FindPropertyRelative("nodePaths");
                 height += EditorGUI.GetPropertyHeight(paths, true) + spacing;
                 break;
             }
 
-            case DialogueNode.NodeType.DIALOGUE:
+            case DialogueRuntimeNode.NodeType.DIALOGUE:
             {
                 SerializedProperty dialogue = property.FindPropertyRelative("dialogue");
                 SerializedProperty paths = property.FindPropertyRelative("nodePaths");
@@ -115,11 +115,11 @@ public class DialogueNodeDrawer : PropertyDrawer
                 break;
             }
 
-            case DialogueNode.NodeType.MODIFIER:
+            case DialogueRuntimeNode.NodeType.MODIFIER:
                 height += line + spacing;
                 break;
 
-            case DialogueNode.NodeType.END:
+            case DialogueRuntimeNode.NodeType.END:
                 // nothing extra
                 break;
         }
