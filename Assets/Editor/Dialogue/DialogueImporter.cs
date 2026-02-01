@@ -29,6 +29,18 @@ public class DialogueImporter : ScriptedImporter
 
         foreach (INode node in graph.GetNodes())
         {
+            if (node is CombineNode cn)
+            {
+                IPort nextNodePort = node.GetOutputPortByName("Continue")?.firstConnectedPort;
+                if (nextNodePort != null)
+                {
+                    nodeIdMap[cn] = nodeIdMap[nextNodePort.GetNode()];
+                }
+            }
+        }
+
+        foreach (INode node in graph.GetNodes())
+        {
             DialogueRuntimeNode dlgNode = new DialogueRuntimeNode();
 
             if (node is StartGraphNode)
@@ -60,6 +72,10 @@ public class DialogueImporter : ScriptedImporter
             else if (node is SetFlagNode)
             {
                 MakeSetFlagNode(dlgNode, nodeIdMap, node);
+            }
+            else if (node is CombineNode)
+            {
+                // skip
             }
             else
             {
