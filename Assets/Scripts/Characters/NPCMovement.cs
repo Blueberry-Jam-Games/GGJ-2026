@@ -1,22 +1,26 @@
 using System.Runtime.InteropServices;
+using NUnit.Framework.Internal;
 using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
     public CharacterMovement player;
-    public string name;
+    public string characterName;
     public Canvas interactabilitySymbol;
     public Canvas yapBox;
+    public Canvas aboveHead;
+
+    public Dialogue testdialogue;
 
     void OnTriggerEnter (Collider other)
     {
-        player.EntersSpeakingDistanceWith(name);
+        player.EntersSpeakingDistanceWith(characterName);
         yapBox.enabled = true;
     }
 
     void OnTriggerExit (Collider other)
     {
-        player.ExitsSpeakingDistanceWith(name);
+        player.ExitsSpeakingDistanceWith(characterName);
         yapBox.enabled = false;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,17 +28,31 @@ public class NPCMovement : MonoBehaviour
     {
         interactabilitySymbol.enabled = false;
         yapBox.enabled = false;
+
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        player = playerObj.GetComponent<CharacterMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        aboveHead.transform.rotation = Quaternion.Euler(0,90-transform.rotation.y,0);
     }
 
-    public void InteractWithPlayer()
+    public virtual void InteractWithPlayer()
     {
-        print("Hello Caleb. My name is " + name + ". Prepare to d-d-d-d-dddd-duel!");
+        PlayDialogue(testdialogue);
+        Debug.LogWarning($"You forgot to override npc {characterName}");
+    }
+
+    protected void PlayDialogue(Dialogue dlg)
+    {
+        GameObject ui = GameObject.FindWithTag("UI");
+        DialogueManager dm = ui.GetComponent<DialogueManager>();
+
+        player.toggleInputSystem();
+
+        dm.StartDialogue(dlg, player.toggleInputSystem);
     }
 
     public void MoveAlongSpline()
@@ -44,7 +62,7 @@ public class NPCMovement : MonoBehaviour
 
     public string GetName()
     {
-        return name;
+        return characterName;
     }
 
     public Vector3 GetPos()

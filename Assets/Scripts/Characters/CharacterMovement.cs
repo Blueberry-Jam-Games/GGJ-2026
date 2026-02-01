@@ -16,7 +16,6 @@ public class CharacterMovement : MonoBehaviour
     public TextMeshProUGUI playerThought;
     public float thinkingTimer = 0f;
 
-    public NPCMovement[] npcs;
     private Dictionary<string, NPCMovement> namedNPCs;
     private Dictionary<string, bool> iAmNear;
     private string nearestNPC = "";
@@ -38,10 +37,13 @@ public class CharacterMovement : MonoBehaviour
         activeInputMap = "Player";
         thoughtBubble.enabled = false;
 
+        GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+
         foreach (var npc in npcs)
         {
-            namedNPCs.Add(npc.GetName(), npc);
-            iAmNear.Add(npc.GetName(), false);
+            NPCMovement movement = npc.GetComponent<NPCMovement>();
+            namedNPCs.Add(movement.GetName(), movement);
+            iAmNear.Add(movement.GetName(), false);
         }
     }
 
@@ -50,6 +52,7 @@ public class CharacterMovement : MonoBehaviour
     {
         moveAmount = moveAction.ReadValue<Vector2>();
         Vector3 movement = new Vector3(moveAmount.x,0,moveAmount.y);
+        movement = transform.rotation * movement;
         controller.Move(movement * moveSpeed * Time.deltaTime);
 
         if (interactAction.WasReleasedThisFrame())
@@ -71,14 +74,14 @@ public class CharacterMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        foreach (var npc in npcs)
+        foreach (var npc in namedNPCs.Values)
         {
             npc.HideSmiley();
         }
         NearestNPC();
         if (nearestNPC != "")
         {
-            print("fuckme");
+            //print("fuckme");
             namedNPCs[nearestNPC].ShowSmiley();
         }
     }

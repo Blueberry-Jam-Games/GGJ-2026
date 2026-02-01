@@ -12,7 +12,6 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueBox;
     public int lineCount = 3;
     public float secondPerLetter = 0.5f;
-    public bool dialogueRunning = false;
 
     public Dialogue tempDialogue;
 
@@ -28,15 +27,19 @@ public class DialogueManager : MonoBehaviour
     public Button leftbutton;
     public Animator leftAnimator;
     public TextMeshProUGUI leftText;
+    public Image leftMask;
 
     [Header("Right Button")]
     public Button rightbutton;
     public Animator rightAnimator;
     public TextMeshProUGUI rightText;
+    public Image rightMask;
 
     WaitForSeconds textSpeed;
 
     private InputAction submitAction;
+
+    private Canvas localCanvas;
 
     private void Awake()
     {
@@ -50,16 +53,19 @@ public class DialogueManager : MonoBehaviour
         leftbutton.onClick.AddListener(LeftButtonPressed);
         rightbutton.onClick.AddListener(RightButtonPressed);
 
+        localCanvas = GetComponent<Canvas>();
+        localCanvas.enabled = false;
         // Temp
         //StartDialogue(tempDialogue);
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(Dialogue dialogue, Action callback = null)
     {
-        StartCoroutine(RunInteraction(dialogue));
+        localCanvas.enabled = true;
+        StartCoroutine(RunInteraction(dialogue, callback));
     }
 
-    IEnumerator RunInteraction(Dialogue dialogue)
+    IEnumerator RunInteraction(Dialogue dialogue, Action callback)
     {
         DialogueRuntimeNode activeNode = FindNode(dialogue, dialogue.startGUID);
 
@@ -103,7 +109,8 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        dialogueRunning = false;
+        localCanvas.enabled = false;
+        callback?.Invoke();
     }
 
     IEnumerator RunDialogue(DialogueRuntimeNode activeNode)
@@ -125,7 +132,7 @@ public class DialogueManager : MonoBehaviour
             int offset = 0;
 
             string newLine = "";
-            string colourNewLine = "<color=\"" + GetEmotion(colourPerString[lineNumber][0]) + "\">";
+            string colourNewLine = $"<color=#{GetEmotion(colourPerString[lineNumber][0])}>";
 
             displayLines.Add(newLine);
             displayLinesColour.Add(colourNewLine);
@@ -144,7 +151,7 @@ public class DialogueManager : MonoBehaviour
                 if(whitespace)
                 {
                     currentWord ++;
-                    colourNewLine += "</color><color=\"" + GetEmotion(colourPerString[lineNumber][currentWord]) + "\">";
+                    colourNewLine += $"</color><color=#{GetEmotion(colourPerString[lineNumber][currentWord])}>";
                 }
 
                 newLine += line[i + offset];
@@ -193,11 +200,13 @@ public class DialogueManager : MonoBehaviour
     {
         leftText.text = choices[0].response;
         leftbutton.Select();
+        leftMask.gameObject.SetActive(choices[0].masked);
 
         if (choices.Count > 1)
         {
             rightbutton.gameObject.SetActive(true);
             rightText.text = choices[1].response;
+            rightMask.gameObject.SetActive(choices[1].masked);
         }
         else
         {
@@ -223,6 +232,10 @@ public class DialogueManager : MonoBehaviour
                 Debug.LogError("Soft Lock Detected");
             }
         }
+        else
+        {
+            leftbutton.interactable = true;
+        }
 
         if (choices.Count > 1)
         {
@@ -232,21 +245,23 @@ public class DialogueManager : MonoBehaviour
                 Debug.Log("Right button should be disabled");
                 leftbutton.Select();
             }
+            else
+            {
+                rightbutton.interactable = true;
+            }
         }
 
         buttonPressed = -1;
 
         yield return new WaitUntil(() => {return buttonPressed != -1;});
 
+        leftbutton.interactable = false;
+        rightbutton.interactable = false;
+
         inputAnimator.Play("OptionsOut");
         yield return BJ.Coroutines.WaitforSeconds(1f);
 
         nextUUID = choices[buttonPressed].connectedGUID;
-    }
-
-    public bool IsDialogueOpen()
-    {
-        return dialogueRunning;
     }
 
     private DialogueRuntimeNode FindNode(Dialogue d, string GUID)
@@ -269,27 +284,27 @@ public class DialogueManager : MonoBehaviour
         switch (colour)
         {
             case '0':
-                return "black";
+                return "000000";
             case '1':
-                return "blue";
+                return "45af00";
             case '2':
-                return "yellow";
+                return "9b4a06";
             case '3':
-                return "red";
+                return "979797";
             case '4':
-                return "orange";
+                return "e4b71c";
             case '5':
-                return "blue";
+                return "a4263b";
             case '6':
-                return "blue";
+                return "196fa2";
             case '7':
-                return "blue";
+                return "541c7b";
             case '8':
-                return "blue";
+                return "aa1107";
             case '9':
-                return "blue";
+                return "ed861d";
             default:
-                return "black";
+                return "000000";
         }
     }
 
@@ -344,7 +359,6 @@ public class DialogueManager : MonoBehaviour
                     fail += '0';
                 }
                 colourPerString.Add(fail);
-                //break;
                 continue;
             }
             colourPerString.Add(colours.Substring(word, words.Length));

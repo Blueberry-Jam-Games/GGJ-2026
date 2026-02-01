@@ -6,7 +6,7 @@ public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     public static void Init()
     {
-        GameObject gameplayManager = new GameObject();
+        GameObject gameplayManager = new GameObject("GameplayManager");
         gameplayManager.AddComponent<GameplayManager>();
     }
 
@@ -14,7 +14,7 @@ public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
     [SerializeField]
     private float stimulation;
     [SerializeField]
-    private float energy;
+    private float energy = 100;
 
     protected override void Awake()
     {
@@ -43,6 +43,8 @@ public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
         {
             range *= value;
         }
+
+        range = Mathf.Clamp(range, 0, 100);
 
         // after operation write
         if (rangeType == RangeType.STIMULATION)
