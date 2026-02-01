@@ -132,7 +132,7 @@ public class DialogueManager : MonoBehaviour
             int offset = 0;
 
             string newLine = "";
-            string colourNewLine = "<color=\"" + GetEmotion(colourPerString[lineNumber][0]) + "\">";
+            string colourNewLine = $"<color=#{GetEmotion(colourPerString[lineNumber][0])}>";
 
             displayLines.Add(newLine);
             displayLinesColour.Add(colourNewLine);
@@ -151,7 +151,7 @@ public class DialogueManager : MonoBehaviour
                 if(whitespace)
                 {
                     currentWord ++;
-                    colourNewLine += "</color><color=\"" + GetEmotion(colourPerString[lineNumber][currentWord]) + "\">";
+                    colourNewLine += $"</color><color=#{GetEmotion(colourPerString[lineNumber][currentWord])}>";
                 }
 
                 newLine += line[i + offset];
@@ -284,27 +284,27 @@ public class DialogueManager : MonoBehaviour
         switch (colour)
         {
             case '0':
-                return "black";
+                return "000000";
             case '1':
-                return "blue";
+                return "45af00";
             case '2':
-                return "yellow";
+                return "9b4a06";
             case '3':
-                return "red";
+                return "979797";
             case '4':
-                return "orange";
+                return "e4b71c";
             case '5':
-                return "blue";
+                return "a4263b";
             case '6':
-                return "blue";
+                return "196fa2";
             case '7':
-                return "blue";
+                return "541c7b";
             case '8':
-                return "blue";
+                return "aa1107";
             case '9':
-                return "blue";
+                return "ed861d";
             default:
-                return "black";
+                return "000000";
         }
     }
 
