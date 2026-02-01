@@ -15,6 +15,7 @@ public class DialogueRuntimeNode
         BRANCH,
         SET_FLAG,
         SET_RANGE,
+        COMBINE,
         END
     }
 
