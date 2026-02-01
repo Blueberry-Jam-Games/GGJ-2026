@@ -1,12 +1,15 @@
 using System.Runtime.InteropServices;
+using NUnit.Framework.Internal;
 using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
     public CharacterMovement player;
-    public string name;
+    public string characterName;
     public Canvas interactabilitySymbol;
     public Canvas yapBox;
+
+    public Dialogue testdialogue;
 
     void OnTriggerEnter (Collider other)
     {
@@ -24,6 +27,9 @@ public class NPCMovement : MonoBehaviour
     {
         interactabilitySymbol.enabled = false;
         yapBox.enabled = false;
+
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        player = playerObj.GetComponent<CharacterMovement>();
     }
 
     // Update is called once per frame
@@ -32,9 +38,20 @@ public class NPCMovement : MonoBehaviour
 
     }
 
-    public void InteractWithPlayer()
+    public virtual void InteractWithPlayer()
     {
-        print("Hello Caleb. My name is " + name + ". Prepare to d-d-d-d-dddd-duel!");
+        PlayDialogue(testdialogue);
+        Debug.LogWarning($"You forgot to override npc {characterName}");
+    }
+
+    protected void PlayDialogue(Dialogue dlg)
+    {
+        GameObject ui = GameObject.FindWithTag("UI");
+        DialogueManager dm = ui.GetComponent<DialogueManager>();
+
+        player.toggleInputSystem();
+
+        dm.StartDialogue(dlg, player.toggleInputSystem);
     }
 
     public void MoveAlongSpline()

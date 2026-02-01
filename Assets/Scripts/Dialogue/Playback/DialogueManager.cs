@@ -12,7 +12,6 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueBox;
     public int lineCount = 3;
     public float secondPerLetter = 0.5f;
-    public bool dialogueRunning = false;
 
     public Dialogue tempDialogue;
 
@@ -28,15 +27,19 @@ public class DialogueManager : MonoBehaviour
     public Button leftbutton;
     public Animator leftAnimator;
     public TextMeshProUGUI leftText;
+    public Image leftMask;
 
     [Header("Right Button")]
     public Button rightbutton;
     public Animator rightAnimator;
     public TextMeshProUGUI rightText;
+    public Image rightMask;
 
     WaitForSeconds textSpeed;
 
     private InputAction submitAction;
+
+    private Canvas localCanvas;
 
     private void Awake()
     {
@@ -50,16 +53,19 @@ public class DialogueManager : MonoBehaviour
         leftbutton.onClick.AddListener(LeftButtonPressed);
         rightbutton.onClick.AddListener(RightButtonPressed);
 
+        localCanvas = GetComponent<Canvas>();
+        localCanvas.enabled = false;
         // Temp
         //StartDialogue(tempDialogue);
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(Dialogue dialogue, Action callback = null)
     {
-        StartCoroutine(RunInteraction(dialogue));
+        localCanvas.enabled = true;
+        StartCoroutine(RunInteraction(dialogue, callback));
     }
 
-    IEnumerator RunInteraction(Dialogue dialogue)
+    IEnumerator RunInteraction(Dialogue dialogue, Action callback)
     {
         DialogueRuntimeNode activeNode = FindNode(dialogue, dialogue.startGUID);
 
@@ -103,7 +109,8 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        dialogueRunning = false;
+        localCanvas.enabled = false;
+        callback?.Invoke();
     }
 
     IEnumerator RunDialogue(DialogueRuntimeNode activeNode)
@@ -193,11 +200,13 @@ public class DialogueManager : MonoBehaviour
     {
         leftText.text = choices[0].response;
         leftbutton.Select();
+        leftMask.gameObject.SetActive(choices[0].masked);
 
         if (choices.Count > 1)
         {
             rightbutton.gameObject.SetActive(true);
             rightText.text = choices[1].response;
+            rightMask.gameObject.SetActive(choices[1].masked);
         }
         else
         {
@@ -223,6 +232,10 @@ public class DialogueManager : MonoBehaviour
                 Debug.LogError("Soft Lock Detected");
             }
         }
+        else
+        {
+            leftbutton.interactable = true;
+        }
 
         if (choices.Count > 1)
         {
@@ -232,21 +245,23 @@ public class DialogueManager : MonoBehaviour
                 Debug.Log("Right button should be disabled");
                 leftbutton.Select();
             }
+            else
+            {
+                rightbutton.interactable = true;
+            }
         }
 
         buttonPressed = -1;
 
         yield return new WaitUntil(() => {return buttonPressed != -1;});
 
+        leftbutton.interactable = false;
+        rightbutton.interactable = false;
+
         inputAnimator.Play("OptionsOut");
         yield return BJ.Coroutines.WaitforSeconds(1f);
 
         nextUUID = choices[buttonPressed].connectedGUID;
-    }
-
-    public bool IsDialogueOpen()
-    {
-        return dialogueRunning;
     }
 
     private DialogueRuntimeNode FindNode(Dialogue d, string GUID)
@@ -344,7 +359,6 @@ public class DialogueManager : MonoBehaviour
                     fail += '0';
                 }
                 colourPerString.Add(fail);
-                //break;
                 continue;
             }
             colourPerString.Add(colours.Substring(word, words.Length));
