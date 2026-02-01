@@ -997,7 +997,8 @@ MonoBehaviour:
     - rid: 6516766977572208688
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
-        m_Value: Some options indicate whether you are masked or unmasked...
+        m_Value: Some options indicate whether you are masked or unmasked. Masking
+          takes energy, so pace yourself!
     - rid: 6516766977572208689
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
