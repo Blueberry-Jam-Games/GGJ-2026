@@ -3,7 +3,12 @@ guid: 10b0190785e81584d8f8a9ab2ee7a898
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Truss
+    second: {fileID: 2100000, guid: f00081590a54eec46b7136e04e37c02c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
