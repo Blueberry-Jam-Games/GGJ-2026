@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections.Generic;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -15,16 +16,33 @@ public class CharacterMovement : MonoBehaviour
     public TextMeshProUGUI playerThought;
     public float thinkingTimer = 0f;
 
+    public NPCMovement[] npcs;
+    private Dictionary<string, NPCMovement> namedNPCs;
+    private Dictionary<string, bool> iAmNear;
+    private string nearestNPC = "";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        namedNPCs = new Dictionary<string, NPCMovement>();
+        iAmNear = new Dictionary<string, bool>();
+
         controller = GetComponent<CharacterController>();
+
         moveAction = InputSystem.actions.FindAction("Move");
         interactAction = InputSystem.actions.FindAction("Interact");
+
         InputSystem.actions.FindActionMap("Player").Enable();
         InputSystem.actions.FindActionMap("UI").Disable();
+
         activeInputMap = "Player";
         thoughtBubble.enabled = false;
+
+        foreach (var npc in npcs)
+        {
+            namedNPCs.Add(npc.GetName(), npc);
+            iAmNear.Add(npc.GetName(), false);
+        }
     }
 
     // Update is called once per frame
@@ -34,10 +52,10 @@ public class CharacterMovement : MonoBehaviour
         Vector3 movement = new Vector3(moveAmount.x,0,moveAmount.y);
         controller.Move(movement * moveSpeed * Time.deltaTime);
 
-        if (interactAction.IsPressed())
+        if (interactAction.WasReleasedThisFrame())
         {
-            print("egg");
             ThinkThought("I wonder if they would listen to me talk about my game jam game...");
+            TriggerDialogueWithNearestNPC();
         }
 
         if (isThinking)
@@ -51,15 +69,31 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        foreach (var npc in npcs)
+        {
+            npc.HideSmiley();
+        }
+        NearestNPC();
+        if (nearestNPC != "")
+        {
+            print("fuckme");
+            namedNPCs[nearestNPC].ShowSmiley();
+        }
+    }
+
     public void toggleInputSystem()
     {
         if (activeInputMap == "Player")
         {
             InputSystem.actions.FindActionMap("Player").Disable();
             InputSystem.actions.FindActionMap("UI").Enable();
+            activeInputMap = "UI";
         } else if (activeInputMap == "UI") {
             InputSystem.actions.FindActionMap("UI").Disable();
             InputSystem.actions.FindActionMap("Player").Enable();
+            activeInputMap = "Player";
         }
     }
 
@@ -70,6 +104,50 @@ public class CharacterMovement : MonoBehaviour
             thinkingTimer = 2.0f;
             isThinking = true;
             playerThought.text = thoughttoThink;
+        }
+    }
+
+    public void EntersSpeakingDistanceWith(string name)
+    {
+        iAmNear[name] = true;
+        print(name + " sees you approach");
+    }
+
+    public void ExitsSpeakingDistanceWith(string name)
+    {
+        iAmNear[name] = false;
+        print(name + " watches you leave");
+    }
+
+    public void TriggerDialogueWithNearestNPC()
+    {
+        namedNPCs[nearestNPC].InteractWithPlayer();
+    }
+
+    public void NearestNPC()
+    {
+        bool iAmNearAnyone = false;
+        nearestNPC = "";
+
+        foreach (var name in namedNPCs.Keys)
+        {
+            if (iAmNear[name])
+            {
+                iAmNearAnyone = true;
+            }
+        }
+
+        if (iAmNearAnyone)
+        {
+            float minDist = float.MaxValue;
+            foreach (var name in namedNPCs.Keys)
+            {
+                if (iAmNear[name] && Vector3.Distance(transform.position, namedNPCs[name].GetPos()) < minDist)
+                {
+                    nearestNPC = name;
+                    minDist = Vector3.Distance(transform.position, namedNPCs[name].GetPos());
+                }
+            }
         }
     }
 }
