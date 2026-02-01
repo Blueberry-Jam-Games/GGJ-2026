@@ -154,6 +154,8 @@ MonoBehaviour:
   characterName: 
   interactabilitySymbol: {fileID: 3987296832310788726}
   yapBox: {fileID: 8322610915479991953}
+  aboveHead: {fileID: 2914677106088011054}
+  testdialogue: {fileID: 0}
 --- !u!1 &2617124240840359897
 GameObject:
   m_ObjectHideFlags: 0

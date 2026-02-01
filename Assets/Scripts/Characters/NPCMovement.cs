@@ -8,6 +8,7 @@ public class NPCMovement : MonoBehaviour
     public string characterName;
     public Canvas interactabilitySymbol;
     public Canvas yapBox;
+    public Canvas aboveHead;
 
     public Dialogue testdialogue;
 
@@ -35,7 +36,7 @@ public class NPCMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        aboveHead.transform.rotation = Quaternion.Euler(0,90-transform.rotation.y,0);
     }
 
     public virtual void InteractWithPlayer()
