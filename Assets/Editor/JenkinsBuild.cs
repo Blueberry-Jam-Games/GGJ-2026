@@ -11,33 +11,32 @@ public class JenkinsBuild : Editor
     [MenuItem("Blueberry Jam/Build/Windows")]
     public static void BuildWindows()
     {
-        BuildPlayerOptions build_player_options = new BuildPlayerOptions();
-        List<EditorBuildSettingsScene> scenes = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
+        // Get all enabled scenes from Build Settings
+        string[] scenes = EditorBuildSettings.scenes
+            .Where(s => s.enabled)
+            .Select(s => s.path)
+            .ToArray();
 
-        string[] scenes_from_settings = new string[scenes.Count];
-        for (int i = 0; i < scenes.Count; i++)
+        if (scenes.Length == 0)
         {
-            scenes_from_settings[i] = scenes[i].path;
-            //Debug.Log("scene: " + scenes[i].path);
+            throw new System.Exception("No scenes are enabled in Build Settings.");
         }
 
-        build_player_options.scenes = scenes_from_settings;
-        build_player_options.locationPathName = "builds/build.exe";
-        build_player_options.target = BuildTarget.StandaloneWindows64;
-
-        build_player_options.options = BuildOptions.None;
-
-        BuildReport report = BuildPipeline.BuildPlayer(build_player_options);
-        BuildSummary summary = report.summary;
-
-        if (summary.result == BuildResult.Succeeded)
+        BuildPlayerOptions buildOptions = new BuildPlayerOptions
         {
-            Debug.Log("Windows Build succeeded");
-        }
+            scenes = scenes,
+            locationPathName = "builds/build.exe",
+            target = BuildTarget.StandaloneWindows64,
+            options = BuildOptions.None
+        };
 
-        if (summary.result == BuildResult.Failed)
+        BuildReport report = BuildPipeline.BuildPlayer(buildOptions);
+
+        if (report.summary.result != BuildResult.Succeeded)
         {
-            Debug.Log("Windows Build failed");
+            throw new System.Exception(
+                $"Windows build failed: {report.summary.result}"
+            );
         }
     }
 

@@ -115,8 +115,8 @@ public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
                 result &= flags.GetValueOrDefault(cond, false) ^ not;
             }
         }
-        Debug.Log("got here");
-        Debug.Log(result);
+        //Debug.Log("got here");
+        //Debug.Log(result);
         return result;
     }
 }
