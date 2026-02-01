@@ -50,6 +50,7 @@ public class CharacterMovement : MonoBehaviour
     {
         moveAmount = moveAction.ReadValue<Vector2>();
         Vector3 movement = new Vector3(moveAmount.x,0,moveAmount.y);
+        movement = transform.rotation * movement;
         controller.Move(movement * moveSpeed * Time.deltaTime);
 
         if (interactAction.WasReleasedThisFrame())
