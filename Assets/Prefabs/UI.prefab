@@ -592,6 +592,7 @@ MonoBehaviour:
   paragraphLines: []
   colourLines: []
   inputAnimator: {fileID: 6249833576841966907}
+  speakerText: {fileID: 1422904003800357691}
   leftbutton: {fileID: 5552854440689333178}
   leftAnimator: {fileID: 6116540416579772849}
   leftText: {fileID: 917136993493589228}
@@ -706,6 +707,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7617404803219559919}
     m_Modifications:
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fccfeae6b593e6d49a26bc0c68bc1387, type: 3}
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3347091446039796643, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
       propertyPath: m_Name
       value: Option1
@@ -914,6 +931,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7617404803219559919}
     m_Modifications:
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fccfeae6b593e6d49a26bc0c68bc1387, type: 3}
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1258008183723761565, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3347091446039796643, guid: a12d4675dfbbabd4a929ef0926e6f10b, type: 3}
       propertyPath: m_Name
       value: Option2

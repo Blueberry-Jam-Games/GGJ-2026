@@ -23,6 +23,8 @@ public class DialogueManager : MonoBehaviour
 
     public Animator inputAnimator;
 
+    public TextMeshProUGUI speakerText;
+
     [Header("Left Button")]
     public Button leftbutton;
     public Animator leftAnimator;
@@ -124,6 +126,8 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator RunDialogue(DialogueRuntimeNode activeNode)
     {
+        speakerText.text = activeNode.speakerName;
+
         List<string> colourPerString;
         List<string> lines = SplitIntoLines(dialogueBox, activeNode.dialogue, activeNode.wordColours, out colourPerString);
         //TMP
