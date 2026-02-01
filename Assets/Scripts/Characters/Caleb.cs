@@ -10,7 +10,7 @@ public class Caleb : NPCMovement
 
     public override void InteractWithPlayer()
     {
-        if (interacted)
+        if (!interacted)
         {
             PlayDialogue(conversation1);
             interacted = true;

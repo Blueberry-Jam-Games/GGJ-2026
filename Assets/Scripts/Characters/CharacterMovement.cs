@@ -79,7 +79,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (interactAction.WasReleasedThisFrame())
         {
-            ThinkThought("I wonder if they would listen to me talk about my game jam game...");
+            //ThinkThought("I wonder if they would listen to me talk about my game jam game...");
             TriggerDialogueWithNearestNPC();
         }
 
