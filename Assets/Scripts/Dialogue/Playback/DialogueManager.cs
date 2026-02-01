@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using UnityEditor.Experimental.GraphView;
+using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -18,13 +18,30 @@ public class DialogueManager : MonoBehaviour
     public List<string> paragraphLines; // TODO - Private
     public List<string> colourLines;
 
-    public string nextUUID;
+    private string nextUUID;
+    private int buttonPressed = -1;
+
+    public Animator inputAnimator;
+
+    [Header("Left Button")]
+    public Button leftbutton;
+    public Animator leftAnimator;
+    public TextMeshProUGUI leftText;
+
+    [Header("Right Button")]
+    public Button rightbutton;
+    public Animator rightAnimator;
+    public TextMeshProUGUI rightText;
 
     WaitForSeconds textSpeed;
 
     public void Start()
     {
         textSpeed = new WaitForSeconds(secondPerLetter);
+
+        leftbutton.onClick.AddListener(LeftButtonPressed);
+        rightbutton.onClick.AddListener(RightButtonPressed);
+
         StartDialogue(tempDialogue);
     }
 
@@ -58,11 +75,15 @@ public class DialogueManager : MonoBehaviour
         {
             if(activeNode.nodeType == DialogueRuntimeNode.NodeType.START)
             {
-                activeNode = findNode(dialogue, activeNode.GUID);
+                activeNode = FindNode(dialogue, activeNode.GUID);
             }
             else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.DIALOGUE)
             {
                 yield return RunDialogue(activeNode);
+                if (nextUUID.Length > 0)
+                {
+                    activeNode = FindNode(dialogue, nextUUID);
+                }
             }
             else
             {
@@ -140,14 +161,48 @@ public class DialogueManager : MonoBehaviour
             
             lineNumber ++;
         }
+    
+        if (activeNode.nodePaths.Count == 0)
+        {
+            nextUUID = "";
+        }
+        else if (activeNode.nodePaths.Count == 1)
+        {
+            nextUUID = activeNode.nodePaths[0].connectedGUID;
+            // TODO Wait for input -> Need to bother Nate
+        }
+        else
+        {
+            yield return DoDialogSelect(activeNode.nodePaths);
+        }
     }
 
-    public bool isDialogueOpen()
+    private IEnumerator DoDialogSelect(List<NodePath> choices)
+    {
+        leftText.text = choices[0].response;
+        rightText.text = choices[1].response;
+
+        inputAnimator.Play("OptionsIn");
+        yield return BJ.Coroutines.WaitforSeconds(1f);
+
+        // TODO conditionals
+
+        buttonPressed = -1;
+
+        yield return new WaitUntil(() => {return buttonPressed != -1;});
+
+        inputAnimator.Play("OptionsOut");
+        yield return BJ.Coroutines.WaitforSeconds(1f);
+
+        nextUUID = choices[buttonPressed].connectedGUID;
+    }
+
+    public bool IsDialogueOpen()
     {
         return dialogueRunning;
     }
 
-    private DialogueRuntimeNode findNode(Dialogue d, string GUID)
+    private DialogueRuntimeNode FindNode(Dialogue d, string GUID)
     {
         foreach(DialogueRuntimeNode node in d.nodeTree)
         {
@@ -235,13 +290,36 @@ public class DialogueManager : MonoBehaviour
 
             if(words.Length + word >= colours.Length || word >= colours.Length)
             {
+                string fail = "";
                 Debug.LogError("Not enough colours listed on " + paragraph);
-                break;
+                for(int c = 0; c < words.Length; c++)
+                {
+                    fail += '0';
+                }
+                colourPerString.Add(fail);
+                //break;
+                continue;
             }
             colourPerString.Add(colours.Substring(word, words.Length));
             word += words.Length;
         }
 
         return lines;
+    }
+
+    public void LeftButtonPressed()
+    {
+        if (buttonPressed == -1)
+        {
+            buttonPressed = 0;
+        }
+    }
+
+    public void RightButtonPressed()
+    {
+        if (buttonPressed == -1)
+        {
+            buttonPressed = 1;
+        }
     }
 }
