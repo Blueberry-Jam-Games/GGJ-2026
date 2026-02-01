@@ -58,7 +58,7 @@ public class JenkinsBuild : Editor
         BuildPlayerOptions buildOptions = new BuildPlayerOptions
         {
             scenes = scenes,
-            locationPathName = "Build/WebGL",
+            locationPathName = "builds",
             target = BuildTarget.WebGL,
             options = BuildOptions.None
         };
