@@ -6,7 +6,7 @@ public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     public static void Init()
     {
-        GameObject gameplayManager = new GameObject();
+        GameObject gameplayManager = new GameObject("GameplayManager");
         gameplayManager.AddComponent<GameplayManager>();
     }
 
