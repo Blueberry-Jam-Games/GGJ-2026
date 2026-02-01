@@ -28,6 +28,8 @@ public class DialogueRuntimeNode
 
     // Contents used in Dialogue
     public string dialogue;
+    public string wordColours;
+    public string speakerName;
     public List<NodePath> nodePaths;
 
     // Modifier Values

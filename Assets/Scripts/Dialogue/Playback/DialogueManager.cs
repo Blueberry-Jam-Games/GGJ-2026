@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
@@ -16,6 +16,7 @@ public class DialogueManager : MonoBehaviour
     public Dialogue tempDialogue;
 
     public List<string> paragraphLines; // TODO - Private
+    public List<string> colourLines;
 
     public string nextUUID;
 
@@ -74,39 +75,56 @@ public class DialogueManager : MonoBehaviour
 
     IEnumerator RunDialogue(DialogueRuntimeNode activeNode)
     {
-        List<string> lines = SplitIntoLines(dialogueBox, activeNode.dialogue);
+        List<string> colourPerString;
+        List<string> lines = SplitIntoLines(dialogueBox, activeNode.dialogue, activeNode.wordColours, out colourPerString);
         //TMP
         paragraphLines = lines;
+        colourLines = colourPerString;
         int startLine = 0;
         int endLine = 0;
         List<string> displayLines = new List<string>();
+        List<string> displayLinesColour = new List<string>();
 
+        int lineNumber = 0;
         foreach(string line in lines)
         {
             int lineLength = LengthWithoutSpaces(line);
             int offset = 0;
 
             string newLine = "";
+            string colourNewLine = "<color=\"" + GetEmotion(colourPerString[lineNumber][0]) + "\">";
 
             displayLines.Add(newLine);
+            displayLinesColour.Add(colourNewLine);
 
+            int currentWord = 0;
             for(int i = 0; i < lineLength; i++)
             {
+                bool whitespace = false;
                 while(line[i + offset] == ' ')
                 {
+                    whitespace = true;
                     offset += 1;
                     newLine += ' ';
+                    colourNewLine += ' ';
+                }
+                if(whitespace)
+                {
+                    currentWord ++;
+                    colourNewLine += "</color><color=\"" + GetEmotion(colourPerString[lineNumber][currentWord]) + "\">";
                 }
 
                 newLine += line[i + offset];
+                colourNewLine += line[i + offset];
 
                 displayLines[endLine] = newLine;
+                displayLinesColour[endLine] = colourNewLine;
 
                 dialogueBox.text = "";
 
                 for(int a = startLine; a <= endLine; a++)
                 {
-                    dialogueBox.text += displayLines[a];
+                    dialogueBox.text += displayLinesColour[a];
                     dialogueBox.text += '\n';
                 }
 
@@ -119,7 +137,8 @@ public class DialogueManager : MonoBehaviour
             {
                 startLine ++;
             }
-
+            
+            lineNumber ++;
         }
     }
 
@@ -143,14 +162,44 @@ public class DialogueManager : MonoBehaviour
         return end;
     }
 
+    public string GetEmotion(int colour)
+    {
+        switch (colour)
+        {
+            case '0':
+                return "black";
+            case '1':
+                return "blue";
+            case '2':
+                return "yellow";
+            case '3':
+                return "red";
+            case '4':
+                return "orange";
+            case '5':
+                return "blue";
+            case '6':
+                return "blue";
+            case '7':
+                return "blue";
+            case '8':
+                return "blue";
+            case '9':
+                return "blue";
+            default:
+                return "black";
+        }
+    }
+
     private int LengthWithoutSpaces(String input)
     {
         string withoutSpaces = input.Replace(" ", "");
         return withoutSpaces.Length;
     }
 
-    public static List<string> SplitIntoLines(TMP_Text textMeshPro, string paragraph)
+    public static List<string> SplitIntoLines(TMP_Text textMeshPro, string paragraph, string colours, out List<string> colourPerString)
     {
+        colourPerString = new List<string>();
         List<string> lines = new List<string>();
 
         if (string.IsNullOrEmpty(paragraph))
@@ -177,6 +226,21 @@ public class DialogueManager : MonoBehaviour
         // Restore original text (optional)
         textMeshPro.text = originalText;
         textMeshPro.ForceMeshUpdate();
+
+        int word = 0;
+        foreach(string line in lines)
+        {
+            char[] delimiters = new char[] { ' ', '\t', '\n', '\r' };
+            string[] words = line.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+            if(words.Length + word >= colours.Length || word >= colours.Length)
+            {
+                Debug.LogError("Not enough colours listed on " + paragraph);
+                break;
+            }
+            colourPerString.Add(colours.Substring(word, words.Length));
+            word += words.Length;
+        }
 
         return lines;
     }

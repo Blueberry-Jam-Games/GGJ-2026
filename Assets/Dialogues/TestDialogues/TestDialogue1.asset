@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue
   startGUID: 
   nodeTree:
-  - name: test
+  - name: name
     GUID: 123
     nodeType: 1
-    dialogue: Test Print 1. Lets write a bunch of words. Because I love words. Lets
-      see how many sentences we get and whether new lines start. Whoo, I have nothign
-      to write about so i am just going to ramble as the best test. This absolutly
-      makes no sense.
+    dialogue: A super long dialogue for testing color and emotion. I am going to
+      be angry now. And now I am happy, so why not yellow.
+    wordColours: 00012345622222223333344445
+    speakerName: name
     nodePaths: []

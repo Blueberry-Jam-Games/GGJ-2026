@@ -26,7 +26,8 @@ public class DialogueNodeDrawer : PropertyDrawer
             SerializedProperty typeProp     = property.FindPropertyRelative("nodeType");
             SerializedProperty dialogueProp = property.FindPropertyRelative("dialogue");
             SerializedProperty pathsProp    = property.FindPropertyRelative("nodePaths");
-            SerializedProperty tbdProp      = property.FindPropertyRelative("tbd");
+            SerializedProperty speakerNameProp = property.FindPropertyRelative("speakerName");
+            SerializedProperty wordColoursProp = property.FindPropertyRelative("wordColours");
 
             // Name
             EditorGUI.PropertyField(rect, nameProp);
@@ -57,6 +58,12 @@ public class DialogueNodeDrawer : PropertyDrawer
 
                     EditorGUI.PropertyField(rect, pathsProp, true);
                     rect.y += EditorGUI.GetPropertyHeight(pathsProp, true) + spacing;
+
+                    EditorGUI.PropertyField(rect, speakerNameProp, true);
+                    rect.y += EditorGUI.GetPropertyHeight(speakerNameProp, true) + spacing;
+
+                    EditorGUI.PropertyField(rect, wordColoursProp, true);
+                    rect.y += EditorGUI.GetPropertyHeight(wordColoursProp, true) + spacing;
                     break;
 
                 case DialogueRuntimeNode.NodeType.MODIFIER:
@@ -109,9 +116,13 @@ public class DialogueNodeDrawer : PropertyDrawer
             {
                 SerializedProperty dialogue = property.FindPropertyRelative("dialogue");
                 SerializedProperty paths = property.FindPropertyRelative("nodePaths");
+                SerializedProperty speakerName = property.FindPropertyRelative("speakerName");
+                SerializedProperty wordColours = property.FindPropertyRelative("wordColours");
 
                 height += EditorGUI.GetPropertyHeight(dialogue, true) + spacing;
                 height += EditorGUI.GetPropertyHeight(paths, true) + spacing;
+                height += EditorGUI.GetPropertyHeight(speakerName, true) + spacing;
+                height += EditorGUI.GetPropertyHeight(wordColours, true) + spacing;
                 break;
             }
 

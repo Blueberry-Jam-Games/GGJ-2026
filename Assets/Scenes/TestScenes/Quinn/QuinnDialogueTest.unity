@@ -499,15 +499,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
   dialogueBox: {fileID: 1172051998}
-  secondPerLetter: 0.1
+  lineCount: 3
+  secondPerLetter: 0.05
   dialogueRunning: 0
-  currentNode:
-    name: 
-    GUID: 
-    nodeType: 0
-    dialogue: 
-    nodePaths: []
   tempDialogue: {fileID: 11400000, guid: a8ba1ab09d9c6204b9de4f75c9fa6178, type: 2}
+  paragraphLines: []
+  colourLines: []
+  nextUUID: 
 --- !u!1 &572036404
 GameObject:
   m_ObjectHideFlags: 0
