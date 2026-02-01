@@ -1,3 +1,4 @@
+using BJ;
 using UnityEngine;
 
 public class Lacy : NPCMovement
@@ -7,6 +8,8 @@ public class Lacy : NPCMovement
     public Dialogue conversationRest;
 
     public bool interacted = false;
+
+    bool loading = false;
 
     public override void InteractWithPlayer()
     {
@@ -23,10 +26,10 @@ public class Lacy : NPCMovement
 
     private void Update()
     {
-        // TODO!!!!!
-        if (GameplayManager.Instance.EvaluateCondition("LaceyEnding"))
+        if (GameplayManager.Instance.EvaluateCondition("LaceyEnding") && loading)
         {
-            // END GAME
+            loading = true;
+            LevelLoader.Instance.LoadLevel("ThanksForPlaying", "Fade");
         }
     }
 }
