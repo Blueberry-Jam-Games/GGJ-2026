@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
-using UnityEditor.Experimental.GraphView;
+using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -18,51 +18,71 @@ public class DialogueManager : MonoBehaviour
     public List<string> paragraphLines; // TODO - Private
     public List<string> colourLines;
 
-    public string nextUUID;
+    private string nextUUID;
+    private int buttonPressed = -1;
+
+    public Animator inputAnimator;
+
+    [Header("Left Button")]
+    public Button leftbutton;
+    public Animator leftAnimator;
+    public TextMeshProUGUI leftText;
+
+    [Header("Right Button")]
+    public Button rightbutton;
+    public Animator rightAnimator;
+    public TextMeshProUGUI rightText;
 
     WaitForSeconds textSpeed;
 
     public void Start()
     {
         textSpeed = new WaitForSeconds(secondPerLetter);
+
+        leftbutton.onClick.AddListener(LeftButtonPressed);
+        rightbutton.onClick.AddListener(RightButtonPressed);
+
+        // Temp
         StartDialogue(tempDialogue);
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
-        DialogueRuntimeNode startNode = null;
-        foreach(DialogueRuntimeNode node in dialogue.nodeTree)
-        {
-            if(node.nodeType == DialogueRuntimeNode.NodeType.DIALOGUE)
-            {
-                startNode = node;
-                break;
-            }
-        }
-
-        if(startNode == null)
-        {
-            Debug.LogError("No Start Node");
-            return;
-        }
-
-        dialogueRunning = true;
-        StartCoroutine(RunInteraction(dialogue, startNode));
+        StartCoroutine(RunInteraction(dialogue));
     }
 
-    IEnumerator RunInteraction(Dialogue dialogue, DialogueRuntimeNode startNode)
+    IEnumerator RunInteraction(Dialogue dialogue)
     {
-        DialogueRuntimeNode activeNode = startNode;
+        DialogueRuntimeNode activeNode = FindNode(dialogue, dialogue.startGUID);
 
         while(activeNode.nodeType != DialogueRuntimeNode.NodeType.END)
         {
             if(activeNode.nodeType == DialogueRuntimeNode.NodeType.START)
             {
-                activeNode = findNode(dialogue, activeNode.GUID);
+                activeNode = FindNode(dialogue, activeNode.nodePaths[0].connectedGUID);
             }
             else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.DIALOGUE)
             {
                 yield return RunDialogue(activeNode);
+                if (nextUUID.Length > 0)
+                {
+                    activeNode = FindNode(dialogue, nextUUID);
+                }
+            }
+            else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.BRANCH)
+            {
+                yield return DoDialogSelect(activeNode.nodePaths);
+                activeNode = FindNode(dialogue, activeNode.nodePaths[buttonPressed].connectedGUID);
+            }
+            else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.SET_FLAG)
+            {
+                GameplayManager.Instance.SetFlag(activeNode.flagName, activeNode.flagActive);
+                activeNode = FindNode(dialogue, activeNode.nodePaths[0].connectedGUID);
+            }
+            else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.SET_RANGE)
+            {
+                GameplayManager.Instance.ModifyRange(activeNode.rangeType, activeNode.action, activeNode.value);
+                activeNode = FindNode(dialogue, activeNode.nodePaths[0].connectedGUID);
             }
             else
             {
@@ -140,14 +160,72 @@ public class DialogueManager : MonoBehaviour
             
             lineNumber ++;
         }
+    
+        if (activeNode.nodePaths.Count == 0)
+        {
+            nextUUID = "";
+        }
+        else if (activeNode.nodePaths.Count == 1)
+        {
+            nextUUID = activeNode.nodePaths[0].connectedGUID;
+            // TODO Wait for input -> Need to bother Nate
+        }
+        else
+        {
+            Debug.LogError("More than 1 output on a dialog node?");
+        }
     }
 
-    public bool isDialogueOpen()
+    private IEnumerator DoDialogSelect(List<NodePath> choices)
+    {
+        leftText.text = choices[0].response;
+
+        if (choices.Count > 1)
+        {
+            rightbutton.gameObject.SetActive(true);
+            rightText.text = choices[1].response;
+        }
+        else
+        {
+            rightbutton.gameObject.SetActive(false);
+        }
+
+        inputAnimator.Play("OptionsIn");
+        yield return BJ.Coroutines.WaitforSeconds(1f);
+
+        //Debug.Log("1 " + choices[0].condition);
+        //Debug.Log("2 " + choices[1].condition);
+        // TODO conditionals
+        if (GameplayManager.Instance.EvaluateCondition(choices[0].condition) == false)
+        {
+            leftAnimator.Play("ButtonDisable");
+            Debug.Log("Left button should be disabled");
+        }
+        if (choices.Count > 1)
+        {
+            if (GameplayManager.Instance.EvaluateCondition(choices[1].condition) == false)
+            {
+                rightAnimator.Play("ButtonDisable");
+                Debug.Log("Right button should be disabled");
+            }
+        }
+
+        buttonPressed = -1;
+
+        yield return new WaitUntil(() => {return buttonPressed != -1;});
+
+        inputAnimator.Play("OptionsOut");
+        yield return BJ.Coroutines.WaitforSeconds(1f);
+
+        nextUUID = choices[buttonPressed].connectedGUID;
+    }
+
+    public bool IsDialogueOpen()
     {
         return dialogueRunning;
     }
 
-    private DialogueRuntimeNode findNode(Dialogue d, string GUID)
+    private DialogueRuntimeNode FindNode(Dialogue d, string GUID)
     {
         foreach(DialogueRuntimeNode node in d.nodeTree)
         {
@@ -235,13 +313,36 @@ public class DialogueManager : MonoBehaviour
 
             if(words.Length + word >= colours.Length || word >= colours.Length)
             {
+                string fail = "";
                 Debug.LogError("Not enough colours listed on " + paragraph);
-                break;
+                for(int c = 0; c < words.Length; c++)
+                {
+                    fail += '0';
+                }
+                colourPerString.Add(fail);
+                //break;
+                continue;
             }
             colourPerString.Add(colours.Substring(word, words.Length));
             word += words.Length;
         }
 
         return lines;
+    }
+
+    public void LeftButtonPressed()
+    {
+        if (buttonPressed == -1)
+        {
+            buttonPressed = 0;
+        }
+    }
+
+    public void RightButtonPressed()
+    {
+        if (buttonPressed == -1)
+        {
+            buttonPressed = 1;
+        }
     }
 }

@@ -21,16 +21,10 @@ public class DialogueImporter : ScriptedImporter
         dialogue.nodeTree = new List<DialogueRuntimeNode>();
 
         Dictionary<INode, string> nodeIdMap = new Dictionary<INode, string>();
-        string startNodeId = "";
 
         foreach (INode node in graph.GetNodes())
         {
             nodeIdMap[node] = Guid.NewGuid().ToString();
-
-            if (node is StartGraphNode && startNodeId.Length == 0)
-            {
-                startNodeId = nodeIdMap[node];
-            }
         }
 
         foreach (INode node in graph.GetNodes())
@@ -45,6 +39,7 @@ public class DialogueImporter : ScriptedImporter
                 {
                     dlgNode.nodePaths.Add(new NodePath("", nodeIdMap[nextNodePort.GetNode()]));
                 }
+                dialogue.startGUID = nodeIdMap[node];
             }
             else if (node is EndGraphNode)
             {
@@ -52,26 +47,23 @@ public class DialogueImporter : ScriptedImporter
             }
             else if (node is DialogueGraphNode)
             {
-                dlgNode.nodeType = DialogueRuntimeNode.NodeType.DIALOGUE;
-                dlgNode.dialogue = GetPortValue<string>(node.GetInputPortByName("Text"));
-
-                foreach (IPort port in node.GetOutputPorts())
-                {
-                    if (port.name.StartsWith ("Choice "))
-                    {
-                        string inputChoice = $"Choice Text {getPortIndex(port.name)}";
-                        string choiceText = GetPortValue<string>(node.GetInputPortByName(inputChoice));
-
-                        string choiceNode = "";
-
-                        if (port.isConnected)
-                        {
-                            choiceNode = nodeIdMap[port.firstConnectedPort.GetNode()];
-                        }
-
-                        dlgNode.nodePaths.Add(new NodePath(choiceText, choiceNode));
-                    }
-                }
+                MakeDialogNode(dlgNode, nodeIdMap, node);
+            }
+            else if (node is BranchNode)
+            {
+                MakeBranchNode(dlgNode, nodeIdMap, node);
+            }
+            else if (node is SetRangeNode)
+            {
+                MakeSetRangeNode(dlgNode, nodeIdMap, node);
+            }
+            else if (node is SetFlagNode)
+            {
+                MakeSetFlagNode(dlgNode, nodeIdMap, node);
+            }
+            else
+            {
+                Debug.LogWarning($"Unidentified node of type {node.GetType()}");
             }
 
             dlgNode.GUID = nodeIdMap[node];
@@ -80,6 +72,82 @@ public class DialogueImporter : ScriptedImporter
 
         ctx.AddObjectToAsset("RuntimeAsset", dialogue);
         ctx.SetMainObject(dialogue);
+    }
+
+    public void MakeDialogNode(DialogueRuntimeNode dlgNode, Dictionary<INode, string> nodeIdMap, INode node)
+    {
+        dlgNode.nodeType = DialogueRuntimeNode.NodeType.DIALOGUE;
+        dlgNode.dialogue = GetPortValue<string>(node.GetInputPortByName("Text"));
+        dlgNode.wordColours = GetPortValue<string>(node.GetInputPortByName("WordColours"));
+        dlgNode.speakerName = GetPortValue<string>(node.GetInputPortByName("Speaker"));
+
+        IPort nextNodePort = node.GetOutputPortByName("Continue")?.firstConnectedPort;
+        if (nextNodePort != null)
+        {
+            dlgNode.nodePaths.Add(new NodePath("", nodeIdMap[nextNodePort.GetNode()]));
+        }
+    }
+
+    public void MakeBranchNode(DialogueRuntimeNode dlgNode, Dictionary<INode, string> nodeIdMap, INode node)
+    {
+        dlgNode.nodeType = DialogueRuntimeNode.NodeType.BRANCH;
+
+        foreach (IPort port in node.GetOutputPorts())
+        {
+            if (port.name.StartsWith ("Choice "))
+            {
+                int portIndex = getPortIndex(port.name);
+
+                string inputChoice = $"Text {portIndex}";
+                string choiceText = GetPortValue<string>(node.GetInputPortByName(inputChoice));
+
+                string inputMasked = $"Masked {portIndex}";
+                bool masked = GetPortValue<bool>(node.GetInputPortByName(inputMasked));
+
+                string choiceNode = "";
+
+                if (port.isConnected)
+                {
+                    choiceNode = nodeIdMap[port.firstConnectedPort.GetNode()];
+                }
+
+                // Unwind conditions
+                string condition = $"Condition {portIndex}";
+                string condValue = GetPortValue<string>(node.GetInputPortByName(condition));
+
+
+                dlgNode.nodePaths.Add(new NodePath(choiceText, choiceNode, masked, condValue));
+            }
+        }
+    }
+
+    public void MakeSetRangeNode(DialogueRuntimeNode dlgNode, Dictionary<INode, string> nodeIdMap, INode node)
+    {
+        dlgNode.nodeType = DialogueRuntimeNode.NodeType.SET_RANGE;
+
+        dlgNode.rangeType = GetPortValue<RangeType>(node.GetInputPortByName("Value"));
+        dlgNode.action = GetPortValue<MathOperation>(node.GetInputPortByName("Operation"));
+        dlgNode.value = GetPortValue<float>(node.GetInputPortByName("Quantity"));
+
+        IPort nextNodePort = node.GetOutputPortByName("Continue")?.firstConnectedPort;
+        if (nextNodePort != null)
+        {
+            dlgNode.nodePaths.Add(new NodePath("", nodeIdMap[nextNodePort.GetNode()]));
+        }
+    }
+
+    public void MakeSetFlagNode(DialogueRuntimeNode dlgNode, Dictionary<INode, string> nodeIdMap, INode node)
+    {
+        dlgNode.nodeType = DialogueRuntimeNode.NodeType.SET_FLAG;
+
+        dlgNode.flagName = GetPortValue<string>(node.GetInputPortByName("Flag"));
+        dlgNode.flagActive = GetPortValue<bool>(node.GetInputPortByName("Value"));
+
+        IPort nextNodePort = node.GetOutputPortByName("Continue")?.firstConnectedPort;
+        if (nextNodePort != null)
+        {
+            dlgNode.nodePaths.Add(new NodePath("", nodeIdMap[nextNodePort.GetNode()]));
+        }
     }
 
     private int getPortIndex(string port)
