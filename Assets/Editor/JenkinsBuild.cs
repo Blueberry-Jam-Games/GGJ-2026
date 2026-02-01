@@ -8,26 +8,6 @@ using System.Collections.Generic;
 
 public class JenkinsBuild : Editor
 {
-    static void SetActiveProfileByName(string profileName)
-    {
-        var guids = AssetDatabase.FindAssets("t:BuildProfile");
-
-        var profile = guids
-            .Select(g => AssetDatabase.LoadAssetAtPath<BuildProfile>(
-                AssetDatabase.GUIDToAssetPath(g)))
-            .FirstOrDefault(p => p.name == profileName);
-
-        if (profile == null)
-        {
-            Debug.LogError($"Build Profile '{profileName}' not found.");
-            EditorApplication.Exit(1);
-            return;
-        }
-
-        BuildProfile.SetActiveBuildProfile(profile);
-        Debug.Log($"Active Build Profile set to: {profile.name}");
-    }
-
     [MenuItem("Blueberry Jam/Build/Windows")]
     public static void BuildWindows()
     {
@@ -64,27 +44,33 @@ public class JenkinsBuild : Editor
     [MenuItem("Blueberry Jam/Build/WebGL")]
     public static void BuildWebGL()
     {
-        SetActiveProfileByName("WebGL-CI");
-
-        var profile = BuildProfile.GetActiveBuildProfile();
-        if (profile == null)
-        {
-            Debug.LogError("No active Build Profile!");
-            EditorApplication.Exit(1);
-            return;
-        }
-
-        var scenes = profile.scenes
+        // Get all enabled scenes from Build Settings
+        string[] scenes = EditorBuildSettings.scenes
             .Where(s => s.enabled)
             .Select(s => s.path)
             .ToArray();
 
-        BuildPipeline.BuildPlayer(new BuildPlayerOptions
+        if (scenes.Length == 0)
+        {
+            throw new System.Exception("No scenes are enabled in Build Settings.");
+        }
+
+        BuildPlayerOptions buildOptions = new BuildPlayerOptions
         {
             scenes = scenes,
+            locationPathName = "Build/WebGL",
             target = BuildTarget.WebGL,
-            locationPathName = "builds"
-        });
+            options = BuildOptions.None
+        };
+
+        BuildReport report = BuildPipeline.BuildPlayer(buildOptions);
+
+        if (report.summary.result != BuildResult.Succeeded)
+        {
+            throw new System.Exception(
+                $"WebGL build failed: {report.summary.result}"
+            );
+        }
     }
 
     [MenuItem("Blueberry Jam/Build/Linux")]
