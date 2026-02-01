@@ -17,7 +17,10 @@ public class Caleb : NPCMovement
         }
         else
         {
-            PlayDialogue(conversationRest);
+            if(GameplayManager.Instance.EvaluateCondition("Caleb1Done"))
+            {
+                PlayDialogue(conversationRest);
+            }
         }
     }
 }
