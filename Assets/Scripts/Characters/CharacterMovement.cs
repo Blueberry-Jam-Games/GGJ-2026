@@ -20,6 +20,8 @@ public class CharacterMovement : MonoBehaviour
     private Dictionary<string, bool> iAmNear;
     private string nearestNPC = "";
 
+    Animator anim;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,6 +41,8 @@ public class CharacterMovement : MonoBehaviour
 
         GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
 
+        anim = GetComponent<Animator>();
+
         foreach (var npc in npcs)
         {
             NPCMovement movement = npc.GetComponent<NPCMovement>();
@@ -55,6 +59,24 @@ public class CharacterMovement : MonoBehaviour
         movement = transform.rotation * movement;
         controller.Move(movement * moveSpeed * Time.deltaTime);
 
+        if (movement.x > 0.5)
+        {
+            anim.Play("WalkForwards");
+        } else if (movement.x < -0.5)
+        {
+            anim.Play("WalkBackwards");
+        } else if (movement.z > 0.5)
+        {
+            anim.Play("WalkLeft");
+        } else if (movement.z < -0.5)
+        {
+            anim.Play("WalkRight");
+        } else
+        {
+            anim.Play("IdleBack");
+        }
+
+
         if (interactAction.WasReleasedThisFrame())
         {
             ThinkThought("I wonder if they would listen to me talk about my game jam game...");
@@ -70,6 +92,7 @@ public class CharacterMovement : MonoBehaviour
                 isThinking = false;
             }
         }
+        moveAmount = new Vector2(0,0);
     }
 
     void FixedUpdate()
