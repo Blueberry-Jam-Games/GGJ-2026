@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 645b9cb1e96bccb41b2c12b2c885a01e, type: 3}
+  m_Name: TestDialogue1
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
+  startGUID: 
+  nodeTree:
+  - name: name
+    GUID: 123
+    nodeType: 1
+    dialogue: A super long dialogue for testing color and emotion. I am going to
+      be angry now. And now I am happy, so why not yellow.
+    wordColours: 00012345622222223333344445
+    speakerName: name
+    nodePaths: []
