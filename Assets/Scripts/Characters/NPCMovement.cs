@@ -12,10 +12,15 @@ public class NPCMovement : MonoBehaviour
 
     public Dialogue testdialogue;
 
+    public bool interactable = true;
+
     void OnTriggerEnter (Collider other)
     {
-        player.EntersSpeakingDistanceWith(characterName);
-        yapBox.enabled = true;
+        if (interactable)
+        {
+            player.EntersSpeakingDistanceWith(characterName);
+            yapBox.enabled = true;
+        }
     }
 
     void OnTriggerExit (Collider other)
@@ -41,8 +46,11 @@ public class NPCMovement : MonoBehaviour
 
     public virtual void InteractWithPlayer()
     {
-        PlayDialogue(testdialogue);
-        Debug.LogWarning($"You forgot to override npc {characterName}");
+        if (interactable)
+        {
+            PlayDialogue(testdialogue);
+            Debug.LogWarning($"You forgot to override npc {characterName}");
+        }
     }
 
     protected void PlayDialogue(Dialogue dlg)
