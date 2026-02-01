@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue
   startGUID: 
   nodeTree:
-  - name: 
-    GUID: 
-    nodeType: 0
-    dialogue: 
-    tbd: 0
+  - name: name
+    GUID: 123
+    nodeType: 1
+    dialogue: A super long dialogue for testing color and emotion. I am going to
+      be angry now. And now I am happy, so why not yellow.
+    wordColours: 00012345622222223333344445
+    speakerName: name
+    nodePaths: []
