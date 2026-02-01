@@ -330,8 +330,8 @@ MonoBehaviour:
   aboveHead: {fileID: 121497330}
   testdialogue: {fileID: 0}
   interactable: 1
-  conversation1: {fileID: 0}
-  conversationRest: {fileID: 0}
+  conversation1: {fileID: 2841676755933307327, guid: 88dce2d96f444034198292185f1ad9dd, type: 3}
+  conversationRest: {fileID: 2841676755933307327, guid: d1980b6a100f9ef468ca57ab11415fce, type: 3}
   interacted: 0
 --- !u!4 &39091938 stripped
 Transform:
@@ -2872,7 +2872,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
       propertyPath: m_text
-      value: Lacy Thought Bubble
+      value: Lacey is your closest friend. Seeing her instantly makes you feel more
+        at ease.
+      objectReference: {fileID: 0}
+    - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_fontSize
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
       propertyPath: m_Name
@@ -3656,6 +3665,131 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 560922072d43931439de95d800d39c12, type: 3}
   m_PrefabInstance: {fileID: 3011951}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &864529690
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_text
+      value: Ms. Page is your English teacher. She insists on lighting her classroom
+        with vintage lamps, and always have slightly stale candy bars from halloweens
+        past to give to her favourite students
+      objectReference: {fileID: 0}
+    - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_fontSize
+      value: 10.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 10.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_Name
+      value: NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 2204408580673174732, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: characterName
+      value: Ms. Paige
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497591635567748169, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a51cb8422ffb85043905c2e3588a8d58, type: 3}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.951
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2204408580673174732, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 864529695}
+  m_SourcePrefab: {fileID: 100100000, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+--- !u!1 &864529691 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+  m_PrefabInstance: {fileID: 864529690}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &864529692 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2914677106088011054, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+  m_PrefabInstance: {fileID: 864529690}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &864529693 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8322610915479991953, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+  m_PrefabInstance: {fileID: 864529690}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &864529694 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3987296832310788726, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+  m_PrefabInstance: {fileID: 864529690}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &864529695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864529691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5d6bacce620c134d8c96dd68dbdc431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MsPage
+  player: {fileID: 0}
+  characterName: Ms Paige
+  interactabilitySymbol: {fileID: 864529694}
+  yapBox: {fileID: 864529693}
+  aboveHead: {fileID: 864529692}
+  testdialogue: {fileID: 0}
+  interactable: 1
+  conversation1: {fileID: 2841676755933307327, guid: 945975f98bfd8ab48ab96f8da1ce6e84, type: 3}
+  conversationRest: {fileID: 2841676755933307327, guid: ac086dd49e0b6d748b11f27281aff47a, type: 3}
+  interacted: 0
 --- !u!223 &867608945 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 2914677106088011054, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
@@ -5066,7 +5200,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
       propertyPath: m_text
-      value: I am Caleb
+      value: You remember the time Caleb actually picked you for his dodgeball team
+        in PE. Maybe he'd be willing to chat?
+      objectReference: {fileID: 0}
+    - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
       propertyPath: m_Name
@@ -6161,7 +6304,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
       propertyPath: m_text
-      value: I am not curous enough
+      value: A boisterous laugh booms over the crowd.
       objectReference: {fileID: 0}
     - target: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
       propertyPath: m_Name
@@ -6254,8 +6397,8 @@ MonoBehaviour:
   aboveHead: {fileID: 867608945}
   testdialogue: {fileID: 0}
   interactable: 1
-  conversation1: {fileID: 0}
-  conversation2: {fileID: 0}
+  conversation1: {fileID: 2841676755933307327, guid: 11a962a02749c634691a7e93ee1e4fc8, type: 3}
+  conversation2: {fileID: 2841676755933307327, guid: a8117a87d588f2946b2e338fb01f8e50, type: 3}
   interactTimes: 0
 --- !u!1 &1526309335
 GameObject:
@@ -6797,6 +6940,116 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 560922072d43931439de95d800d39c12, type: 3}
   m_PrefabInstance: {fileID: 1986598428}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1755777236
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 779391903422783666, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_Name
+      value: Pythia
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497591635567748169, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3503ac86d870d684ab4892e2ceea0718, type: 3}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.708
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.922
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10.154
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952115223938872367, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2204408580673174732, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1755777241}
+  m_SourcePrefab: {fileID: 100100000, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+--- !u!1 &1755777237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1735270964732795547, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+  m_PrefabInstance: {fileID: 1755777236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &1755777238 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2914677106088011054, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+  m_PrefabInstance: {fileID: 1755777236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &1755777239 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8322610915479991953, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+  m_PrefabInstance: {fileID: 1755777236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &1755777240 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3987296832310788726, guid: 745b1cd702e3f1f438cbcbe556ee24e8, type: 3}
+  m_PrefabInstance: {fileID: 1755777236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1755777241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755777237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d719a0d064b19409d914fc4f633e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pythia
+  player: {fileID: 0}
+  characterName: Pythia
+  interactabilitySymbol: {fileID: 1755777240}
+  yapBox: {fileID: 1755777239}
+  aboveHead: {fileID: 1755777238}
+  testdialogue: {fileID: 0}
+  interactable: 1
+  conversation1: {fileID: 2841676755933307327, guid: 07c1ec6817bd3be4ca35063d95dc86c1, type: 3}
+  interacted: 0
 --- !u!1001 &1791776811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8501,3 +8754,5 @@ SceneRoots:
   - {fileID: 357791404}
   - {fileID: 1526309336}
   - {fileID: 1232554202}
+  - {fileID: 1755777236}
+  - {fileID: 864529690}

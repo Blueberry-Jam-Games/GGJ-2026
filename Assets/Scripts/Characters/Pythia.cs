@@ -4,7 +4,6 @@ public class Pythia : NPCMovement
 {
     [Header("Pythia")]
     public Dialogue conversation1;
-    public Dialogue conversationRest;
 
     public bool interacted = false;
 
@@ -14,10 +13,6 @@ public class Pythia : NPCMovement
         {
             PlayDialogue(conversation1);
             interacted = true;
-        }
-        else
-        {
-            PlayDialogue(conversationRest);
         }
     }
 }
