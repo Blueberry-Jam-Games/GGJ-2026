@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -35,6 +36,13 @@ public class DialogueManager : MonoBehaviour
 
     WaitForSeconds textSpeed;
 
+    private InputAction submitAction;
+
+    private void Awake()
+    {
+        submitAction = InputSystem.actions.FindAction("Submit");     
+    }
+
     public void Start()
     {
         textSpeed = new WaitForSeconds(secondPerLetter);
@@ -43,7 +51,7 @@ public class DialogueManager : MonoBehaviour
         rightbutton.onClick.AddListener(RightButtonPressed);
 
         // Temp
-        StartDialogue(tempDialogue);
+        //StartDialogue(tempDialogue);
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -67,6 +75,11 @@ public class DialogueManager : MonoBehaviour
                 if (nextUUID.Length > 0)
                 {
                     activeNode = FindNode(dialogue, nextUUID);
+                }
+
+                if (activeNode.nodeType != DialogueRuntimeNode.NodeType.BRANCH)
+                {
+                    yield return new WaitUntil(() => {return submitAction.WasReleasedThisFrame();});
                 }
             }
             else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.BRANCH)
@@ -179,6 +192,7 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator DoDialogSelect(List<NodePath> choices)
     {
         leftText.text = choices[0].response;
+        leftbutton.Select();
 
         if (choices.Count > 1)
         {
@@ -200,13 +214,23 @@ public class DialogueManager : MonoBehaviour
         {
             leftAnimator.Play("ButtonDisable");
             Debug.Log("Left button should be disabled");
+            if (choices.Count > 1)
+            {
+                rightbutton.Select();
+            }
+            else
+            {
+                Debug.LogError("Soft Lock Detected");
+            }
         }
+
         if (choices.Count > 1)
         {
             if (GameplayManager.Instance.EvaluateCondition(choices[1].condition) == false)
             {
                 rightAnimator.Play("ButtonDisable");
                 Debug.Log("Right button should be disabled");
+                leftbutton.Select();
             }
         }
 
