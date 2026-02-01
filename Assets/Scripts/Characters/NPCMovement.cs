@@ -13,13 +13,13 @@ public class NPCMovement : MonoBehaviour
 
     void OnTriggerEnter (Collider other)
     {
-        player.EntersSpeakingDistanceWith(name);
+        player.EntersSpeakingDistanceWith(characterName);
         yapBox.enabled = true;
     }
 
     void OnTriggerExit (Collider other)
     {
-        player.ExitsSpeakingDistanceWith(name);
+        player.ExitsSpeakingDistanceWith(characterName);
         yapBox.enabled = false;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,7 +61,7 @@ public class NPCMovement : MonoBehaviour
 
     public string GetName()
     {
-        return name;
+        return characterName;
     }
 
     public Vector3 GetPos()
