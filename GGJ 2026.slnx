@@ -56,11 +56,11 @@
   <Project Path="Unity.CollabProxy.Editor.csproj" />
   <Project Path="Unity.ShaderGraph.Utilities.csproj" />
   <Project Path="Unity.VisualScripting.Shared.Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="GraphEditor.csproj" />
   <Project Path="Unity.GraphToolkit.Common.Editor.csproj" />
   <Project Path="Unity.RenderPipeline.Universal.ShaderLibrary.csproj" />
   <Project Path="io.github.blueberry-jam-games.core.Tests.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="ScriptableObjects.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="Unity.InputSystem.DocCodeSamples.csproj" />

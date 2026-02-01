@@ -69,5 +69,5 @@ public enum RangeType
 
 public enum MathOperation
 {
-    ADD, SUB, MUL
+    SET, ADD, SUB, MUL
 }

@@ -42,40 +42,24 @@ public class DialogueManager : MonoBehaviour
         leftbutton.onClick.AddListener(LeftButtonPressed);
         rightbutton.onClick.AddListener(RightButtonPressed);
 
+        // Temp
         StartDialogue(tempDialogue);
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
-        DialogueRuntimeNode startNode = null;
-        foreach(DialogueRuntimeNode node in dialogue.nodeTree)
-        {
-            if(node.nodeType == DialogueRuntimeNode.NodeType.DIALOGUE)
-            {
-                startNode = node;
-                break;
-            }
-        }
-
-        if(startNode == null)
-        {
-            Debug.LogError("No Start Node");
-            return;
-        }
-
-        dialogueRunning = true;
-        StartCoroutine(RunInteraction(dialogue, startNode));
+        StartCoroutine(RunInteraction(dialogue));
     }
 
-    IEnumerator RunInteraction(Dialogue dialogue, DialogueRuntimeNode startNode)
+    IEnumerator RunInteraction(Dialogue dialogue)
     {
-        DialogueRuntimeNode activeNode = startNode;
+        DialogueRuntimeNode activeNode = FindNode(dialogue, dialogue.startGUID);
 
         while(activeNode.nodeType != DialogueRuntimeNode.NodeType.END)
         {
             if(activeNode.nodeType == DialogueRuntimeNode.NodeType.START)
             {
-                activeNode = FindNode(dialogue, activeNode.GUID);
+                activeNode = FindNode(dialogue, activeNode.nodePaths[0].connectedGUID);
             }
             else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.DIALOGUE)
             {
@@ -84,6 +68,21 @@ public class DialogueManager : MonoBehaviour
                 {
                     activeNode = FindNode(dialogue, nextUUID);
                 }
+            }
+            else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.BRANCH)
+            {
+                yield return DoDialogSelect(activeNode.nodePaths);
+                activeNode = FindNode(dialogue, activeNode.nodePaths[buttonPressed].connectedGUID);
+            }
+            else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.SET_FLAG)
+            {
+                GameplayManager.Instance.SetFlag(activeNode.flagName, activeNode.flagActive);
+                activeNode = FindNode(dialogue, activeNode.nodePaths[0].connectedGUID);
+            }
+            else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.SET_RANGE)
+            {
+                GameplayManager.Instance.ModifyRange(activeNode.rangeType, activeNode.action, activeNode.value);
+                activeNode = FindNode(dialogue, activeNode.nodePaths[0].connectedGUID);
             }
             else
             {
@@ -173,19 +172,43 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            yield return DoDialogSelect(activeNode.nodePaths);
+            Debug.LogError("More than 1 output on a dialog node?");
         }
     }
 
     private IEnumerator DoDialogSelect(List<NodePath> choices)
     {
         leftText.text = choices[0].response;
-        rightText.text = choices[1].response;
+
+        if (choices.Count > 1)
+        {
+            rightbutton.gameObject.SetActive(true);
+            rightText.text = choices[1].response;
+        }
+        else
+        {
+            rightbutton.gameObject.SetActive(false);
+        }
 
         inputAnimator.Play("OptionsIn");
         yield return BJ.Coroutines.WaitforSeconds(1f);
 
+        //Debug.Log("1 " + choices[0].condition);
+        //Debug.Log("2 " + choices[1].condition);
         // TODO conditionals
+        if (GameplayManager.Instance.EvaluateCondition(choices[0].condition) == false)
+        {
+            leftAnimator.Play("ButtonDisable");
+            Debug.Log("Left button should be disabled");
+        }
+        if (choices.Count > 1)
+        {
+            if (GameplayManager.Instance.EvaluateCondition(choices[1].condition) == false)
+            {
+                rightAnimator.Play("ButtonDisable");
+                Debug.Log("Right button should be disabled");
+            }
+        }
 
         buttonPressed = -1;
 
