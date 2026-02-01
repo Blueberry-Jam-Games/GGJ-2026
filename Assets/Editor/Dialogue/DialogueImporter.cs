@@ -29,11 +29,13 @@ public class DialogueImporter : ScriptedImporter
 
         foreach (INode node in graph.GetNodes())
         {
+            Debug.Log("For each node");
             if (node is CombineNode cn)
             {
                 IPort nextNodePort = node.GetOutputPortByName("Continue")?.firstConnectedPort;
                 if (nextNodePort != null)
                 {
+                    Debug.Log($"Mapping node {nodeIdMap[cn]} to {nodeIdMap[nextNodePort.GetNode()]}");
                     nodeIdMap[cn] = nodeIdMap[nextNodePort.GetNode()];
                 }
             }

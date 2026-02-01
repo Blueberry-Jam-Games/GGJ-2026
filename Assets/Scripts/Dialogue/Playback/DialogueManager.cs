@@ -73,7 +73,16 @@ public class DialogueManager : MonoBehaviour
         {
             if(activeNode.nodeType == DialogueRuntimeNode.NodeType.START)
             {
-                activeNode = FindNode(dialogue, activeNode.nodePaths[0].connectedGUID);
+                try
+                {
+                    activeNode = FindNode(dialogue, activeNode.nodePaths[0].connectedGUID);                
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                    Debug.Log (JsonUtility.ToJson(activeNode));
+                    break;
+                }
             }
             else if (activeNode.nodeType == DialogueRuntimeNode.NodeType.DIALOGUE)
             {
