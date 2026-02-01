@@ -1119,7 +1119,7 @@ MonoBehaviour:
     - rid: 6516766973439770698
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
-        m_Value: 
+        m_Value: Narrator
     - rid: 6516766973439770699
       type: {class: DialogueGraphNode, ns: , asm: GraphEditor}
       data: 
@@ -1305,7 +1305,7 @@ MonoBehaviour:
     - rid: 6516766973439770712
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
-        m_Value: 
+        m_Value: Narrator
     - rid: 6516766973439770713
       type: {class: DialogueGraphNode, ns: , asm: GraphEditor}
       data: 
@@ -1882,7 +1882,7 @@ MonoBehaviour:
     - rid: 6516766973439770768
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
-        m_Value: 
+        m_Value: Narrator
     - rid: 6516766973439770769
       type: {class: DialogueGraphNode, ns: , asm: GraphEditor}
       data: 
@@ -2068,7 +2068,7 @@ MonoBehaviour:
     - rid: 6516766973439770782
       type: {class: 'Constant`1[[System.String, mscorlib]]', ns: Unity.GraphToolkit.Editor, asm: Unity.GraphToolkit.Internal.Editor}
       data:
-        m_Value: 
+        m_Value: Narrator
     - rid: 6516766973439770783
       type: {class: DialogueGraphNode, ns: , asm: GraphEditor}
       data: 
