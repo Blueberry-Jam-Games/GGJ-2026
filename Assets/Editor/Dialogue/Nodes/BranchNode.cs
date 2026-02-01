@@ -32,3 +32,31 @@ public class BranchNode : Node
             .Delayed();
     }
 }
+
+[Serializable]
+public class CombineNode : Node
+{
+    const string nChoices = "Choices";
+
+    protected override void OnDefinePorts(IPortDefinitionContext context)
+    {
+        context.AddOutputPort<int>("Continue");
+
+        INodeOption nodeChoices = GetNodeOptionByName(nChoices);
+        if (nodeChoices.TryGetValue<int>(out int numberOfBranches))
+        {
+            for (int i = 0; i < numberOfBranches; i++)
+            {
+                context.AddInputPort<int>($"In {i}").Build();
+            }
+        }
+    }
+
+    protected override void OnDefineOptions(IOptionDefinitionContext context)
+    {        
+        context.AddOption<int>(nChoices)
+            .WithDisplayName("Number of Inputs")
+            .WithDefaultValue(2)
+            .Delayed();
+    }
+}
