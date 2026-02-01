@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2204408580673174732}
   m_Layer: 0
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCMovement
   player: {fileID: 0}
-  name: Alice
+  characterName: 
   interactabilitySymbol: {fileID: 3987296832310788726}
   yapBox: {fileID: 8322610915479991953}
 --- !u!1 &2617124240840359897

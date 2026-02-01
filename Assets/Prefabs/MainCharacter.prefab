@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: -6571726310997933303}
   m_Layer: 0
   m_Name: MainCharacter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -615,6 +615,7 @@ MonoBehaviour:
   thoughtBubble: {fileID: 3763762240617529825}
   playerThought: {fileID: 5335244735084838580}
   thinkingTimer: 0
+  npcs: []
 --- !u!114 &9132138507792596801
 MonoBehaviour:
   m_ObjectHideFlags: 0
