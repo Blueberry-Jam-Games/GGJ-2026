@@ -147,7 +147,10 @@ public class CharacterMovement : MonoBehaviour
 
     public void TriggerDialogueWithNearestNPC()
     {
-        namedNPCs[nearestNPC].InteractWithPlayer();
+        if (nearestNPC.Length != 0)
+        {
+            namedNPCs[nearestNPC].InteractWithPlayer();        
+        }
     }
 
     public void NearestNPC()
