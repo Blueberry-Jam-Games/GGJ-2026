@@ -71,9 +71,9 @@ public class DialogueManager : MonoBehaviour
     {
         DialogueRuntimeNode activeNode = FindNode(dialogue, dialogue.startGUID);
 
-        while(activeNode.nodeType != DialogueRuntimeNode.NodeType.END)
+        while (activeNode.nodeType != DialogueRuntimeNode.NodeType.END)
         {
-            if(activeNode.nodeType == DialogueRuntimeNode.NodeType.START)
+            if (activeNode.nodeType == DialogueRuntimeNode.NodeType.START)
             {
                 try
                 {

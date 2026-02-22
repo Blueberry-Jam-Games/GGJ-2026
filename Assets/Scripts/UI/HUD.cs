@@ -1,41 +1,38 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    float HEIGHT = 257f;
-    float WIDTH = 206f;
-    float MAX_X = 800f;
-    float MAX_Y = 325f;
+    [SerializeField]
+    private Slider socialBattery;
+    [SerializeField]
+    private Slider stim;
 
-    public GameObject StimometerBar;
-    public GameObject SocialBatteryBar;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        
+        GameplayManager.Instance.stimChanged += UpdateStimometer;
+        GameplayManager.Instance.socialBatteryChanged += UpdateSocialBattery;
+
+        UpdateStimometer (GameplayManager.Instance.GetStim());
+        UpdateSocialBattery (GameplayManager.Instance.GetEnergy());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-        
-    }
-
-    // input a value between 0 and 100 or so help me god
-    public void UpdateSocialBattery(float percentage)
-    {
-        RectTransform rect = SocialBatteryBar.GetComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(rect.sizeDelta.x * percentage/100f, rect.sizeDelta.y * percentage/100f);
-        rect.transform.position = new Vector3(-MAX_X, -MAX_Y - (percentage/100f * HEIGHT/2), 0);
+        GameplayManager.Instance.stimChanged -= UpdateStimometer;
+        GameplayManager.Instance.socialBatteryChanged -= UpdateSocialBattery;
     }
 
     // input a value between 0 and 100 or so help me god
-    public void UpdateStimometer(float percentage)
+    private void UpdateSocialBattery(float percentage)
     {
-        RectTransform rect = StimometerBar.GetComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(rect.sizeDelta.x * percentage/100f, rect.sizeDelta.y * percentage/100f);
-        rect.transform.position = new Vector3(MAX_X, -MAX_Y - (percentage/100f * HEIGHT/2), 0);
+        socialBattery.value = percentage / 100.0f;
+    }
+
+    // input a value between 0 and 100 or so help me god
+    private void UpdateStimometer(float percentage)
+    {
+        stim.value = percentage / 100.0f;
     }
 }

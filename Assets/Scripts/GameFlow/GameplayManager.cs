@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
@@ -15,6 +16,9 @@ public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
     private float stimulation;
     [SerializeField]
     private float energy = 100;
+
+    public Action<float> stimChanged;
+    public Action<float> socialBatteryChanged;
 
     protected override void Awake()
     {
@@ -50,10 +54,12 @@ public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
         if (rangeType == RangeType.STIMULATION)
         {
             stimulation = range;
+            stimChanged?.Invoke (stimulation);
         }
         else
         {
             energy = range;
+            socialBatteryChanged?.Invoke (energy);
         }
     }
 
@@ -118,5 +124,15 @@ public class GameplayManager : BJ.SingletonGameObject<GameplayManager>
         //Debug.Log("got here");
         //Debug.Log(result);
         return result;
+    }
+
+    public float GetStim()
+    {
+        return stimulation;
+    }
+
+    public float GetEnergy()
+    {
+        return energy;
     }
 }
