@@ -1272,7 +1272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &317652673
 Transform:
   m_ObjectHideFlags: 0
@@ -2216,7 +2216,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 0
-  m_Color: {r: 1, g: 0.9104002, b: 0.8443396, a: 1}
+  m_Color: {r: 1, g: 0.84313726, b: 0.9009194, a: 1}
   m_Intensity: 23.1
   m_Range: 97.4
   m_SpotAngle: 35.92716
@@ -5553,7 +5553,7 @@ Transform:
   m_GameObject: {fileID: 1154811656}
   serializedVersion: 2
   m_LocalRotation: {x: 0.46412483, y: 0.3953262, z: -0.24320622, w: 0.75442433}
-  m_LocalPosition: {x: 11.855, y: 9.14, z: -6.535}
+  m_LocalPosition: {x: 13.34, y: 4.49, z: -4.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5599,10 +5599,10 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 0.27687788, g: 0.65727955, b: 0.9622642, a: 1}
-  m_Intensity: 61.5
-  m_Range: 179
-  m_SpotAngle: 41.490067
-  m_InnerSpotAngle: 19.066982
+  m_Intensity: 4.7
+  m_Range: 10.8
+  m_SpotAngle: 65.19868
+  m_InnerSpotAngle: 53.44447
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
     m_Type: 0
@@ -5638,7 +5638,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -6321,7 +6321,7 @@ Transform:
   m_GameObject: {fileID: 1428747846}
   serializedVersion: 2
   m_LocalRotation: {x: 0.32288763, y: 0.62908155, z: -0.32288763, w: 0.62908155}
-  m_LocalPosition: {x: 18.37, y: 10, z: -10.27}
+  m_LocalPosition: {x: 21.63, y: 5.94, z: -10.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6367,7 +6367,7 @@ Light:
   serializedVersion: 12
   m_Type: 0
   m_Color: {r: 1, g: 0.7897351, b: 0.7764706, a: 1}
-  m_Intensity: 58.7
+  m_Intensity: 13.1
   m_Range: 29.8
   m_SpotAngle: 33.656384
   m_InnerSpotAngle: 30.100092
@@ -6406,7 +6406,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
